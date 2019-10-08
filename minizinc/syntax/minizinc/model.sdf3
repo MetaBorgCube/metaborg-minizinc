@@ -1,0 +1,47 @@
+// https://www.minizinc.org/doc-2.2.3/en/fzn-spec.html#grammar
+
+module minizinc/model
+
+imports
+
+  minizinc/common
+  minizinc/type
+  minizinc/expr
+  
+  minizinc/include
+  minizinc/var-decl
+  minizinc/enum
+  minizinc/assign
+  minizinc/constraint
+  minizinc/solve
+  minizinc/output
+  minizinc/predicate
+  minizinc/test
+  minizinc/function
+  minizinc/annotation
+
+template options
+
+  keyword -/- [A-Za-z0-9\_] // require layout after a keyword
+
+context-free start-symbols
+
+  MiniZinc-Model
+
+context-free syntax
+
+  MiniZinc-Model.MiniZincModel = <
+    <{MiniZinc-Item ";\n"}*>
+  >
+
+  MiniZinc-Item = MiniZinc-Include-Item
+  MiniZinc-Item = MiniZinc-VarDecl-Item
+  MiniZinc-Item = MiniZinc-Enum-Item
+  MiniZinc-Item = MiniZinc-Assign-Item
+  MiniZinc-Item = MiniZinc-Constraint-Item
+  MiniZinc-Item = MiniZinc-Solve-Item
+  MiniZinc-Item = MiniZinc-Output-Item
+  MiniZinc-Item = MiniZinc-Predicate-Item
+  MiniZinc-Item = MiniZinc-Test-Item
+  MiniZinc-Item = MiniZinc-Function-Item
+  MiniZinc-Item = MiniZinc-Annotation-Item

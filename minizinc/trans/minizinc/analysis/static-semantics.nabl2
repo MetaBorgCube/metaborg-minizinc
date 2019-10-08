@@ -1,0 +1,11 @@
+module minizinc/analysis/static-semantics
+
+imports
+
+  signatures/-
+
+rules
+
+  init ^ (s) := new s.
+  
+  [[ MiniZincModel(_) ^ (_) ]].

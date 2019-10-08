@@ -1,0 +1,15 @@
+module minizinc/constraint
+
+imports
+
+  minizinc/common
+  minizinc/annotation
+  minizinc/expr
+
+template options
+
+  keyword -/- [A-Za-z0-9\_] // require layout after a keyword
+
+context-free syntax
+
+  MiniZinc-Constraint-Item.Constraint = <constraint <MiniZinc-String-Annotation?> <MiniZinc-Expr>>

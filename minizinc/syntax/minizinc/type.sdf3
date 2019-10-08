@@ -1,0 +1,47 @@
+module minizinc/type
+
+imports
+
+  minizinc/common
+  minizinc/expr
+
+template options
+
+  keyword -/- [A-Za-z0-9\_] // require layout after a keyword
+
+context-free syntax
+
+  MiniZinc-Type-Expr = MiniZinc-Base-Type-Expr
+  
+  MiniZinc-Base-Type-Expr.Type = <<MiniZinc-Var-Par?><MiniZinc-Base-Type-Expr-Tail>>
+  
+  MiniZinc-Var-Par.Var = "var "
+  MiniZinc-Var-Par.Par = "par "
+
+  MiniZinc-Base-Type-Expr-Tail.Id    = MiniZinc-ID
+  MiniZinc-Base-Type-Expr-Tail       = MiniZinc-Base-Type
+  MiniZinc-Base-Type-Expr-Tail       = MiniZinc-Set-Type-Expr-Tail
+  MiniZinc-Base-Type-Expr-Tail       = MiniZinc-Array-Type-Expr-Tail
+  MiniZinc-Base-Type-Expr-Tail.Var   = MiniZinc-Type-Variable-Expr-Tail
+  MiniZinc-Base-Type-Expr-Tail.Ann   = <ann>
+  MiniZinc-Base-Type-Expr-Tail.Opt   = <opt <MiniZinc-Base-Type-Expr-Tail>>
+  MiniZinc-Base-Type-Expr-Tail.Exprs = <{<{MiniZinc-Expr ","}+>}>
+  MiniZinc-Base-Type-Expr-Tail.Range = <<MiniZinc-Expr>..<MiniZinc-Expr>>
+  
+  MiniZinc-Base-Type.Bool   = "bool"
+  MiniZinc-Base-Type.Int    = "int"
+  MiniZinc-Base-Type.Float  = "float"
+  MiniZinc-Base-Type.String = "string"
+  
+  MiniZinc-Set-Type-Expr-Tail.Set = <set of <MiniZinc-Base-Type>>
+  
+  MiniZinc-Array-Type-Expr-Tail.Array = <array [<{MiniZinc-Type-Expr ","}+>] of <MiniZinc-Type-Expr>>
+  MiniZinc-Array-Type-Expr-Tail.List  = <list of <MiniZinc-Type-Expr>>
+
+lexical syntax
+
+  MiniZinc-Type-Variable-Expr-Tail = [\$][A-Za-z][A-Za-z0-9\_]*
+
+lexical restrictions
+
+  MiniZinc-Type-Variable-Expr-Tail -/- [A-Za-z0-9\_]

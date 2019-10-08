@@ -1,0 +1,21 @@
+module minizinc
+
+imports
+  
+  completion/completion
+  pp
+  
+  minizinc/analysis/-
+  
+  nabl2/api
+  nabl2/runtime
+
+rules // Debugging
+  
+  minizinc-debug-show-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"aterm")> path
+    ; result   := node
+
+  editor-analyze = nabl2-analyze(id)

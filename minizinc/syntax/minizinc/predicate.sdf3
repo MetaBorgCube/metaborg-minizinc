@@ -1,0 +1,13 @@
+module minizinc/predicate
+
+imports
+
+  minizinc/common
+
+template options
+
+  keyword -/- [A-Za-z0-9\_] // require layout after a keyword
+
+context-free syntax
+
+  MiniZinc-Predicate-Item.Predicate = <predicate <MiniZinc-Operation-Item-Tail>>

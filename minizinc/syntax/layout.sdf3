@@ -1,0 +1,20 @@
+module layout
+
+lexical syntax
+
+  LAYOUT         = [\ \t\n\r]
+
+  // Comments are single line
+  LAYOUT         = "%" ~[\n\r]* NewLineEOF
+  NewLineEOF     = [\n\r]
+  NewLineEOF     = EOF
+  EOF            =
+
+lexical restrictions
+
+  EOF           -/- ~[]
+
+context-free restrictions
+
+  LAYOUT? -/- [\ \t\n\r]
+  LAYOUT? -/- [\%]

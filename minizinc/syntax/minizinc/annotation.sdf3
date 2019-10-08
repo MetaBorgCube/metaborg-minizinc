@@ -1,0 +1,20 @@
+module minizinc/annotation
+
+imports
+
+  minizinc/common
+  minizinc/expr
+
+template options
+
+  keyword -/- [A-Za-z0-9\_] // require layout after a keyword
+
+context-free syntax
+
+  MiniZinc-Annotation-Item.Annotation = <annotation <MiniZinc-ID> <MiniZinc-Params>>
+
+  MiniZinc-Annotations.Annotations = {MiniZinc-Annotation " "}+
+  
+  MiniZinc-Annotation.Annotation = <:: <MiniZinc-Expr>>
+  
+  MiniZinc-String-Annotation.StringAnnotation = <:: <MiniZinc-STRING>>

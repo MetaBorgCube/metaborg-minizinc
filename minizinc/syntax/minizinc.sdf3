@@ -1,0 +1,10 @@
+module minizinc
+
+imports
+
+  layout
+  minizinc/model
+
+context-free start-symbols
+
+  MiniZinc-Model

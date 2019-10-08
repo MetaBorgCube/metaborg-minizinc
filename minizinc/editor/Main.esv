@@ -1,0 +1,32 @@
+module Main
+
+imports 
+
+  libspoofax/color/default
+  completion/colorer/minizinc-cc-esv
+
+language
+
+  extensions : mzn
+
+  provider : target/metaborg/stratego.ctree
+
+  table         : target/metaborg/sdf.tbl
+  start symbols : MiniZinc-Model
+
+  line comment  : "%"
+  fences        : [ ] ( ) { }
+
+  observer : editor-analyze (constraint)
+
+menus
+  
+  menu: "Syntax" (openeditor)
+    
+    action: "Format"            = minizinc-editor-format (source)
+    action: "Show parsed AST"   = minizinc-debug-show-aterm (source)
+
+views
+  
+  outline view: editor-outline (source)
+    expand to level: 3

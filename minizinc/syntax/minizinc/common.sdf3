@@ -1,0 +1,110 @@
+module minizinc/common
+
+imports
+
+  minizinc/type
+  minizinc/expr
+  minizinc/annotation
+
+lexical syntax
+
+  MiniZinc-ID  = [A-Za-z\_][A-Za-z0-9\_]*
+  
+  MiniZinc-INT-LITERAL = MiniZinc-INT
+  MiniZinc-INT-LITERAL = MiniZinc-HEX
+  MiniZinc-INT-LITERAL = MiniZinc-OCT
+  MiniZinc-INT = [0-9]+
+  MiniZinc-HEX = [0][x][0-9A-Fa-f]+
+  MiniZinc-OCT = [0][o][0-7]+
+  
+  MiniZinc-FLOAT-LITERAL = [0-9]+[\.][0-9]+
+  MiniZinc-FLOAT-LITERAL = [0-9]+[\.][0-9]+[Ee][\-\+]?[0-9]+
+  MiniZinc-FLOAT-LITERAL = [0-9]+[Ee][\-\+]?[0-9]+
+  
+  MiniZinc-STRING                  = "\"" MiniZinc-StringChar* "\""
+  MiniZinc-STRING-INTERPOLATE      = "\"" MiniZinc-StringChar* "\\("
+  MiniZinc-STRING-INTERPOLATE-MID  = ")"  MiniZinc-StringChar* "\\("
+  MiniZinc-STRING-INTERPOLATE-TAIL = ")"  MiniZinc-StringChar* "\""
+  MiniZinc-StringChar              = ~[\"\n]
+  
+  MiniZinc-Keyword = "ann"
+  MiniZinc-Keyword = "annotation"
+  MiniZinc-Keyword = "any"
+  MiniZinc-Keyword = "array"
+  MiniZinc-Keyword = "bool"
+  MiniZinc-Keyword = "case"
+  MiniZinc-Keyword = "constraint"
+  MiniZinc-Keyword = "diff"
+  MiniZinc-Keyword = "div"
+  MiniZinc-Keyword = "else"
+  MiniZinc-Keyword = "elseif"
+  MiniZinc-Keyword = "endif"
+  MiniZinc-Keyword = "enum"
+  MiniZinc-Keyword = "false"
+  MiniZinc-Keyword = "float"
+  MiniZinc-Keyword = "function"
+  MiniZinc-Keyword = "if"
+  MiniZinc-Keyword = "in"
+  MiniZinc-Keyword = "include"
+  MiniZinc-Keyword = "int"
+  MiniZinc-Keyword = "intersect"
+  MiniZinc-Keyword = "let"
+  MiniZinc-Keyword = "list"
+  MiniZinc-Keyword = "maximize"
+  MiniZinc-Keyword = "minimize"
+  MiniZinc-Keyword = "mod"
+  MiniZinc-Keyword = "not"
+  MiniZinc-Keyword = "of"
+  MiniZinc-Keyword = "op"
+  MiniZinc-Keyword = "opt"
+  MiniZinc-Keyword = "output"
+  MiniZinc-Keyword = "par"
+  MiniZinc-Keyword = "predicate"
+  MiniZinc-Keyword = "record"
+  MiniZinc-Keyword = "satisfy"
+  MiniZinc-Keyword = "set"
+  MiniZinc-Keyword = "solve"
+  MiniZinc-Keyword = "string"
+  MiniZinc-Keyword = "subset"
+  MiniZinc-Keyword = "superset"
+  MiniZinc-Keyword = "symdiff"
+  MiniZinc-Keyword = "test"
+  MiniZinc-Keyword = "then"
+  MiniZinc-Keyword = "true"
+  MiniZinc-Keyword = "tuple"
+  MiniZinc-Keyword = "type"
+  MiniZinc-Keyword = "union"
+  MiniZinc-Keyword = "var"
+  MiniZinc-Keyword = "where"
+  MiniZinc-Keyword = "xor"
+  
+  MiniZinc-ID = MiniZinc-Keyword {reject}
+
+lexical restrictions
+
+  // Ensure greedy matching for lexicals
+
+  MiniZinc-ID  -/- [A-Za-z0-9\_]
+  
+  MiniZinc-INT -/- [0-9]
+  MiniZinc-HEX -/- [0-9A-Fa-f]
+  MiniZinc-OCT -/- [0-7]
+  
+  MiniZinc-FLOAT-LITERAL -/- [0-9]
+
+context-free syntax
+
+  MiniZinc-Type-Expr-Id.TypeAndId = <<MiniZinc-Type-Expr> : <MiniZinc-ID>>
+  
+  MiniZinc-Params.Params = <(<{MiniZinc-Type-Expr-Id ","}+>)>
+  
+  MiniZinc-Operation-Item-Tail.Operation = <<MiniZinc-ID><MiniZinc-Params><MiniZinc-Annotations?><MiniZinc-Operation-Expr?>>
+  
+  MiniZinc-Operation-Expr = < = <MiniZinc-Expr>>
+  
+  MiniZinc-ID-QuotedOp.Id = MiniZinc-ID
+  MiniZinc-ID-QuotedOp.QuotedOp = <`<MiniZinc-Builtin-Op>`>
+
+  MiniZinc-Comp-Tail.CompTail = <<MiniZinc-Generator><{MiniZinc-Comp-Where ","}*>>
+  MiniZinc-Comp-Where.Where = < where <MiniZinc-Expr>>
+  MiniZinc-Generator.Generator = <<{MiniZinc-ID ","}+> in <MiniZinc-Expr>>

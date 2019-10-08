@@ -1,0 +1,14 @@
+module minizinc/function
+
+imports
+
+  minizinc/common
+  minizinc/type
+
+template options
+
+  keyword -/- [A-Za-z0-9\_] // require layout after a keyword
+
+context-free syntax
+
+  MiniZinc-Function-Item.Function = <function <MiniZinc-Type-Expr> <MiniZinc-Operation-Item-Tail>>

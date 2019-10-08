@@ -1,0 +1,17 @@
+module minizinc/solve
+
+imports
+
+  minizinc/common
+  minizinc/annotation
+  minizinc/expr
+
+template options
+
+  keyword -/- [A-Za-z0-9\_] // require layout after a keyword
+
+context-free syntax
+
+  MiniZinc-Solve-Item.Satisfy  = <solve <MiniZinc-Annotations?> satisfy>
+  MiniZinc-Solve-Item.Minimize = <solve <MiniZinc-Annotations?> minimize <MiniZinc-Expr>>
+  MiniZinc-Solve-Item.Maximize = <solve <MiniZinc-Annotations?> maximize <MiniZinc-Expr>>

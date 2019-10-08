@@ -1,0 +1,20 @@
+module pp
+
+imports
+
+  libstratego-gpp
+  libspoofax/editor/refactoring/-
+  minizinc/pp
+
+rules
+
+  minizinc-editor-format:
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path
+    ; filename := <guarantee-extension(|$[pp.[ext]])> path
+    ; result   := <pp-minizinc-string> node
+
+rules
+  
+  construct-textual-change = construct-textual-change(pp-partial-minizinc-string, parenthesize, override-reconstruction, resugar)

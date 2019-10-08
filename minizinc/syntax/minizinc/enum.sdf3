@@ -1,0 +1,16 @@
+module minizinc/enum
+
+imports
+
+  minizinc/common
+  minizinc/annotation
+
+template options
+
+  keyword -/- [A-Za-z0-9\_] // require layout after a keyword
+
+context-free syntax
+
+  MiniZinc-Enum-Item.Enum = <enum <MiniZinc-ID><MiniZinc-Annotations?><MiniZinc-Enum-Cases?>>
+  
+  MiniZinc-Enum-Cases = <= { <{MiniZinc-ID ", "}+> }> 

@@ -1,0 +1,28 @@
+module minizinc/pp
+
+imports
+
+  libstratego-gpp
+  libspoofax/sdf/pp
+  pp/minizinc/-
+  pp/minizinc-parenthesize
+
+rules
+
+  pp-minizinc-string =
+    pp-minizinc-string(prettyprint-minizinc-start-symbols)
+
+  pp-partial-minizinc-string =
+    pp-minizinc-string(prettyprint-minizinc)
+
+  pp-partial-minizinc-string(|sort) =
+    pp-minizinc-string(prettyprint-minizinc(|sort))
+
+  pp-partial-minizinc-strings =
+    pp-minizinc-string(pp-H-list(prettyprint-minizinc|", "))
+
+  pp-minizinc-string(pp) =
+    parenthesize-minizinc
+  ; pp
+  ; !V([], <id>)
+  ; box2text-string(|120)

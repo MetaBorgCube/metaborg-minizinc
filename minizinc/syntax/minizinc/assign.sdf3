@@ -1,0 +1,14 @@
+module minizinc/assign
+
+imports
+
+  minizinc/common
+  minizinc/expr
+
+template options
+
+  keyword -/- [A-Za-z0-9\_] // require layout after a keyword
+
+context-free syntax
+
+  MiniZinc-Assign-Item.Assign = <<MiniZinc-ID> = <MiniZinc-Expr>>

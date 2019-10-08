@@ -1,0 +1,8 @@
+---
+id: org.metaborg:minizinc.example:0.1.0-SNAPSHOT
+name: minizincexample
+dependencies:
+  compile:
+  - org.metaborg:minizinc:0.1.0-SNAPSHOT
+build:
+  useBuildSystemSpec: true

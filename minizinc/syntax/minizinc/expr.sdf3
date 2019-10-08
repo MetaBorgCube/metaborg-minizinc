@@ -1,0 +1,211 @@
+module minizinc/expr
+
+imports
+
+  minizinc/common
+  minizinc/annotation
+  minizinc/var-decl
+  minizinc/constraint
+
+context-free syntax
+
+  MiniZinc-Expr            = <(<MiniZinc-Expr>)> {bracket}
+  MiniZinc-Expr.Brackets   = <(<MiniZinc-Expr>)>
+  MiniZinc-Expr            = MiniZinc-ID-QuotedOp
+  MiniZinc-Expr.Underscore = "_"
+  MiniZinc-Expr            = MiniZinc-Bool-Literal
+  MiniZinc-Expr            = MiniZinc-Int-Literal
+  MiniZinc-Expr            = MiniZinc-Float-Literal
+  MiniZinc-Expr            = MiniZinc-String-Literal
+  MiniZinc-Expr            = MiniZinc-Set-Literal
+  MiniZinc-Expr            = MiniZinc-Set-Comp
+  MiniZinc-Expr            = MiniZinc-Array-Literal
+  MiniZinc-Expr            = MiniZinc-Array-Literal-2D
+  MiniZinc-Expr            = MiniZinc-Array-Comp
+  MiniZinc-Expr            = MiniZinc-Array-Access
+//MiniZinc-Expr            = MiniZinc-Ann-Literal
+  MiniZinc-Expr            = MiniZinc-If-Then-Else-Expr
+  MiniZinc-Expr            = MiniZinc-Let-Expr
+  MiniZinc-Expr            = MiniZinc-Call-Expr
+  MiniZinc-Expr            = MiniZinc-Gen-Call-Expr
+  
+  MiniZinc-Expr.Annotated  = <<MiniZinc-Expr><MiniZinc-Annotations>>
+  
+  // Binary operators
+  MiniZinc-Expr.Iff       = [[MiniZinc-Expr] <-> [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Implies   = [[MiniZinc-Expr] -> [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.OnlyIf    = [[MiniZinc-Expr] <- [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Disj      = [[MiniZinc-Expr] \/ [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Xor       = [[MiniZinc-Expr] xor [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Conj      = [[MiniZinc-Expr] /\\ [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Lt        = [[MiniZinc-Expr] < [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.Gt        = [[MiniZinc-Expr] > [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.Leq       = [[MiniZinc-Expr] <= [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.Geq       = [[MiniZinc-Expr] >= [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.Eq        = [[MiniZinc-Expr] == [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.Is        = [[MiniZinc-Expr] = [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.Neq       = [[MiniZinc-Expr] != [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.In        = [[MiniZinc-Expr] in [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.Subset    = [[MiniZinc-Expr] subset [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.Superset  = [[MiniZinc-Expr] superset [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.Union     = [[MiniZinc-Expr] union [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Diff      = [[MiniZinc-Expr] diff [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.SymDiff   = [[MiniZinc-Expr] symdiff [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Range     = [[MiniZinc-Expr] .. [MiniZinc-Expr]] {non-assoc}
+  MiniZinc-Expr.Intersect = [[MiniZinc-Expr] intersect [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Concat    = [[MiniZinc-Expr] ++ [MiniZinc-Expr]] {right}
+
+  // Binary numeric operators
+  MiniZinc-Expr.Add  = [[MiniZinc-Expr] + [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Sub  = [[MiniZinc-Expr] - [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Mul  = [[MiniZinc-Expr] * [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Div  = [[MiniZinc-Expr] / [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Div2 = [[MiniZinc-Expr] div [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Mod  = [[MiniZinc-Expr] mod [MiniZinc-Expr]] {left}
+  
+  // Unary operators
+  MiniZinc-Expr.Not   = [not [MiniZinc-Expr]]
+  MiniZinc-Expr.AddUn = [+[MiniZinc-Expr]]
+  MiniZinc-Expr.SubUn = [-[MiniZinc-Expr]]
+
+  // Built-in operators
+  MiniZinc-Builtin-Op = MiniZinc-Builtin-BinOp
+  MiniZinc-Builtin-Op = MiniZinc-Builtin-UnOp
+  
+  MiniZinc-BinOp        = MiniZinc-Builtin-BinOp
+  MiniZinc-BinOp.Quoted = <`<MiniZinc-ID>`>
+  
+  MiniZinc-Builtin-BinOp.Iff       = [<->]
+  MiniZinc-Builtin-BinOp.Implies   = [->]
+  MiniZinc-Builtin-BinOp.OnlyIf    = [<-]
+  MiniZinc-Builtin-BinOp.Disj      = [\/]
+  MiniZinc-Builtin-BinOp.Xor       = [xor]
+  MiniZinc-Builtin-BinOp.Conj      = [/\\]
+  MiniZinc-Builtin-BinOp.Lt        = [<]
+  MiniZinc-Builtin-BinOp.Gt        = [>]
+  MiniZinc-Builtin-BinOp.Leq       = [<=]
+  MiniZinc-Builtin-BinOp.Geq       = [>=]
+  MiniZinc-Builtin-BinOp.Equal     = [==]
+  MiniZinc-Builtin-BinOp.Is        = [=]
+  MiniZinc-Builtin-BinOp.NotEqual  = [!=]
+  MiniZinc-Builtin-BinOp.In        = <in>
+  MiniZinc-Builtin-BinOp.Subset    = [subset]
+  MiniZinc-Builtin-BinOp.Superset  = [superset]
+  MiniZinc-Builtin-BinOp.Union     = [union]
+  MiniZinc-Builtin-BinOp.Diff      = [diff]
+  MiniZinc-Builtin-BinOp.SymDiff   = [symdiff]
+  MiniZinc-Builtin-BinOp.Range     = [..]
+  MiniZinc-Builtin-BinOp.Intersect = [intersect]
+  MiniZinc-Builtin-BinOp.Concat    = [++]
+  MiniZinc-Builtin-BinOp = MiniZinc-Builtin-Num-BinOp
+  
+  MiniZinc-Builtin-UnOp.Not = <not>
+  MiniZinc-Builtin-UnOp = MiniZinc-Builtin-Num-UnOp
+  
+  // Built-in numeric operators
+  MiniZinc-Num-BinOp        = MiniZinc-Builtin-Num-BinOp
+  MiniZinc-Num-BinOp.Quoted = <`<MiniZinc-ID>`>
+  
+  MiniZinc-Builtin-Num-BinOp.Add  = <+>
+  MiniZinc-Builtin-Num-BinOp.Sub  = <->
+  MiniZinc-Builtin-Num-BinOp.Mul  = <*>
+  MiniZinc-Builtin-Num-BinOp.Div  = </>
+  MiniZinc-Builtin-Num-BinOp.Div2 = <div>
+  MiniZinc-Builtin-Num-BinOp.Mod  = <mod>
+  
+  MiniZinc-Builtin-Num-UnOp.Add = <+>
+  MiniZinc-Builtin-Num-UnOp.Sub = <->
+  
+  // Boolean literals
+  MiniZinc-Bool-Literal.False = <false>
+  MiniZinc-Bool-Literal.True = <true>
+  
+  // Integer literals
+  MiniZinc-Int-Literal.Int = MiniZinc-INT-LITERAL
+  
+  // Float literals
+  MiniZinc-Float-Literal.Float = MiniZinc-FLOAT-LITERAL
+  
+  // String literals
+  MiniZinc-String-Literal.String                      = MiniZinc-STRING
+  MiniZinc-String-Literal.StringInterpolated          = MiniZinc-STRING-INTERPOLATE
+  MiniZinc-String-Interpolated.StringInterpolatedTail = MiniZinc-Expr MiniZinc-STRING-INTERPOLATE-TAIL
+  MiniZinc-String-Interpolated.StringInterpolatedCons = MiniZinc-Expr MiniZinc-STRING-INTERPOLATE-MID MiniZinc-String-Interpolated 
+  
+  // Set literals
+  MiniZinc-Set-Literal.SetLit = <{<{MiniZinc-Expr ","}+>}>
+  
+  // Set comprehensions
+  MiniZinc-Set-Comp.SetComp = <{<MiniZinc-Expr> | <MiniZinc-Comp-Tail>}>
+  
+  // Array literals
+  MiniZinc-Array-Literal.ArrayLit = <[<{MiniZinc-Expr ","}+>]>
+  
+  // 2D array literals
+  MiniZinc-Array-Literal-2D.ArrayLit2D = <[|<{MiniZinc-Array-Literal-2D-Row "|"}+>|]>
+  MiniZinc-Array-Literal-2D-Row.Row = {MiniZinc-Expr ","}+
+  
+  // Array comprehensions
+  MiniZinc-Array-Comp.ArrayComp = <[<MiniZinc-Expr> | <MiniZinc-Comp-Tail>]>
+  
+  // Array access
+  MiniZinc-Array-Access.ArrayAccess = <<MiniZinc-Expr>[<{MiniZinc-Expr ","}+>]>
+  
+  // Annotation literals
+  MiniZinc-Ann-Literal.AnnLit = <<MiniZinc-ID><MiniZinc-Ann-Params?>> {avoid}
+  MiniZinc-Ann-Params.Params = <(<{MiniZinc-Expr ","}+>)>
+  
+  // If-then-else expressions
+  MiniZinc-If-Then-Else-Expr.IfThenElse       = <if <MiniZinc-Expr> then <MiniZinc-Expr> else <MiniZinc-Expr> endif>
+  MiniZinc-If-Then-Else-Expr.IfThenElseIfElse = <if <MiniZinc-Expr> then <MiniZinc-Expr> elseif <MiniZinc-Expr> then <MiniZinc-Expr> else <MiniZinc-Expr> endif>
+  
+  // Call expressions
+  MiniZinc-Call-Expr.Call = <<MiniZinc-ID-QuotedOp>(<{MiniZinc-Expr ","}+>)>
+  
+  // Let expressions
+  MiniZinc-Let-Expr.Let = <let {<{MiniZinc-Let-Item ";"}+>} in <MiniZinc-Expr>>
+  MiniZinc-Let-Item = MiniZinc-VarDecl-Item
+  MiniZinc-Let-Item = MiniZinc-Constraint-Item
+  
+  // Generator call expressions
+  MiniZinc-Gen-Call-Expr.GenCall = <<MiniZinc-ID-QuotedOp>(<MiniZinc-Comp-Tail>) (<MiniZinc-Expr>)>
+
+template options
+
+  tokenize: "{}()[],;"
+  keyword -/- [a-zA-Z]
+  
+context-free priorities
+    
+                MiniZinc-Array-Access.ArrayAccess
+  > {right:     MiniZinc-Expr.Not
+                MiniZinc-Expr.AddUn
+                MiniZinc-Expr.SubUn}
+  >             MiniZinc-Expr.Concat
+  > {left:      MiniZinc-Expr.Mul
+                MiniZinc-Expr.Div
+                MiniZinc-Expr.Div2
+                MiniZinc-Expr.Mod
+                MiniZinc-Expr.Intersect}
+  > {left:      MiniZinc-Expr.Add
+                MiniZinc-Expr.Sub}
+  >             MiniZinc-Expr.Range
+  > {left:      MiniZinc-Expr.Union
+                MiniZinc-Expr.Diff
+                MiniZinc-Expr.SymDiff}
+  > {non-assoc: MiniZinc-Expr.In
+                MiniZinc-Expr.Subset
+                MiniZinc-Expr.Superset}
+  > {non-assoc: MiniZinc-Expr.Lt
+                MiniZinc-Expr.Gt
+                MiniZinc-Expr.Leq
+                MiniZinc-Expr.Geq
+                MiniZinc-Expr.Eq
+                MiniZinc-Expr.Is
+                MiniZinc-Expr.Neq}
+  >             MiniZinc-Expr.Conj
+  > {left:      MiniZinc-Expr.Disj
+                MiniZinc-Expr.Xor}
+  > {left:      MiniZinc-Expr.Implies
+                MiniZinc-Expr.OnlyIf} 
+  >             MiniZinc-Expr.Iff
