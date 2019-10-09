@@ -1,0 +1,3 @@
+[submodule "minizinc.example/minizinc-examples"]
+	path = minizinc.example/minizinc-examples
+	url = https://github.com/MiniZinc/minizinc-examples
