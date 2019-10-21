@@ -133,20 +133,20 @@ context-free syntax
   MiniZinc-String-Interpolated.StringInterpolatedCons = MiniZinc-Expr MiniZinc-STRING-INTERPOLATE-MID MiniZinc-String-Interpolated 
   
   // Set literals
-  MiniZinc-Set-Literal.SetLit = <{<{MiniZinc-Expr ","}+>}>
+  MiniZinc-Set-Literal.SetLit = <{<{MiniZinc-Expr ","}*>}>
   
   // Set comprehensions
-  MiniZinc-Set-Comp.SetComp = <{<MiniZinc-Expr> | <MiniZinc-Comp-Tail>}>
+  MiniZinc-Set-Comp.SetComp = <{<MiniZinc-Expr> | <{MiniZinc-Comp-Tail ","}+>}>
   
   // Array literals
-  MiniZinc-Array-Literal.ArrayLit = <[<{MiniZinc-Expr ","}+>]>
+  MiniZinc-Array-Literal.ArrayLit = <[<{MiniZinc-Expr ","}*>]>
   
   // 2D array literals
-  MiniZinc-Array-Literal-2D.ArrayLit2D = <[|<{MiniZinc-Array-Literal-2D-Row "|"}+>|]>
-  MiniZinc-Array-Literal-2D-Row.Row = {MiniZinc-Expr ","}+
+  MiniZinc-Array-Literal-2D.ArrayLit2D = <[|<{MiniZinc-Array-Literal-2D-Row "|"}*>|]>
+  MiniZinc-Array-Literal-2D-Row.Row = {MiniZinc-Expr ","}*
   
   // Array comprehensions
-  MiniZinc-Array-Comp.ArrayComp = <[<MiniZinc-Expr> | <MiniZinc-Comp-Tail>]>
+  MiniZinc-Array-Comp.ArrayComp = <[<MiniZinc-Expr> | <{MiniZinc-Comp-Tail ","}+>]>
   
   // Array access
   MiniZinc-Array-Access.ArrayAccess = <<MiniZinc-Expr>[<{MiniZinc-Expr ","}+>]>
@@ -168,7 +168,7 @@ context-free syntax
   MiniZinc-Let-Item = MiniZinc-Constraint-Item
   
   // Generator call expressions
-  MiniZinc-Gen-Call-Expr.GenCall = <<MiniZinc-ID-QuotedOp>(<MiniZinc-Comp-Tail>) (<MiniZinc-Expr>)>
+  MiniZinc-Gen-Call-Expr.GenCall = <<MiniZinc-ID-QuotedOp>(<{MiniZinc-Comp-Tail ","}+>) (<MiniZinc-Expr>)>
 
 template options
 

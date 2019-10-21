@@ -11,4 +11,4 @@ template options
 
 context-free syntax
 
-  MiniZinc-Function-Item.Function = <function <MiniZinc-Type-Expr> <MiniZinc-Operation-Item-Tail>>
+  MiniZinc-Function-Item.Function = <function <MiniZinc-Type-Expr>: <MiniZinc-Operation-Item-Tail>>

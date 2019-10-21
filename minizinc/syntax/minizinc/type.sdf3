@@ -25,7 +25,7 @@ context-free syntax
   MiniZinc-Base-Type-Expr-Tail.Var   = MiniZinc-Type-Variable-Expr-Tail
   MiniZinc-Base-Type-Expr-Tail.Ann   = <ann>
   MiniZinc-Base-Type-Expr-Tail.Opt   = <opt <MiniZinc-Base-Type-Expr-Tail>>
-  MiniZinc-Base-Type-Expr-Tail.Exprs = <{<{MiniZinc-Expr ","}+>}>
+  MiniZinc-Base-Type-Expr-Tail.Exprs = {MiniZinc-Expr ","}+
   MiniZinc-Base-Type-Expr-Tail.Range = <<MiniZinc-Expr>..<MiniZinc-Expr>>
   
   MiniZinc-Base-Type.Bool   = "bool"
@@ -33,7 +33,7 @@ context-free syntax
   MiniZinc-Base-Type.Float  = "float"
   MiniZinc-Base-Type.String = "string"
   
-  MiniZinc-Set-Type-Expr-Tail.Set = <set of <MiniZinc-Base-Type>>
+  MiniZinc-Set-Type-Expr-Tail.Set = <set of <MiniZinc-Type-Expr>>
   
   MiniZinc-Array-Type-Expr-Tail.Array = <array [<{MiniZinc-Type-Expr ","}+>] of <MiniZinc-Type-Expr>>
   MiniZinc-Array-Type-Expr-Tail.List  = <list of <MiniZinc-Type-Expr>>
