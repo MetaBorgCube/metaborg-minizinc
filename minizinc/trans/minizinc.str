@@ -4,6 +4,7 @@ imports
   
   completion/completion
   pp
+  minizinc/outline
   minizinc/desugar
   
   minizinc/analysis/-
