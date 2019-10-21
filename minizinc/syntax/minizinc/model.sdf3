@@ -31,7 +31,7 @@ context-free start-symbols
 context-free syntax
 
   MiniZinc-Model.MiniZincModel = <
-    <{MiniZinc-Item ";\n"}*>
+    <{MiniZinc-Item ";\n"}*><SEMICOLON?>
   >
 
   MiniZinc-Item = MiniZinc-Include-Item

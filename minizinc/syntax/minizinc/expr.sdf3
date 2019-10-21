@@ -163,7 +163,7 @@ context-free syntax
   MiniZinc-Call-Expr.Call = <<MiniZinc-ID-QuotedOp>(<{MiniZinc-Expr ","}+>)>
   
   // Let expressions
-  MiniZinc-Let-Expr.Let = <let {<{MiniZinc-Let-Item ";"}+>} in <MiniZinc-Expr>>
+  MiniZinc-Let-Expr.Let = <let {<{MiniZinc-Let-Item ";"}+><SEMICOLON?>} in <MiniZinc-Expr>>
   MiniZinc-Let-Item = MiniZinc-VarDecl-Item
   MiniZinc-Let-Item = MiniZinc-Constraint-Item
   

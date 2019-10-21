@@ -79,6 +79,8 @@ lexical syntax
   MiniZinc-Keyword = "xor"
   
   MiniZinc-ID = MiniZinc-Keyword {reject}
+  
+  SEMICOLON = ";"
 
 lexical restrictions
 
