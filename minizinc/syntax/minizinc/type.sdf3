@@ -25,7 +25,7 @@ context-free syntax
   MiniZinc-Base-Type-Expr-Tail.Var   = MiniZinc-Type-Variable-Expr-Tail
   MiniZinc-Base-Type-Expr-Tail.Ann   = <ann>
   MiniZinc-Base-Type-Expr-Tail.Opt   = <opt <MiniZinc-Base-Type-Expr-Tail>>
-  MiniZinc-Base-Type-Expr-Tail.Exprs = {MiniZinc-Expr ","}+
+  MiniZinc-Base-Type-Expr-Tail.Exprs = {MiniZinc-Expr ","}+ {avoid}
   MiniZinc-Base-Type-Expr-Tail.Range = <<MiniZinc-Expr>..<MiniZinc-Expr>>
   
   MiniZinc-Base-Type.Bool   = "bool"
