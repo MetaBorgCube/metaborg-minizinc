@@ -1,0 +1,26 @@
+module minizinc/sugar
+
+imports
+
+  signatures/minizinc/-
+
+signature
+  constructors
+    MiniZincModel : List(MiniZinc-Item)                     -> MiniZinc-Model
+    Let           : List(MiniZinc-Let-Item) * MiniZinc-Expr -> MiniZinc-Let-Expr
+
+rules
+
+  minizinc-desugar = topdown(try(minizinc-desugar-term))
+  
+  minizinc-desugar-term: MiniZincModel(items, _) -> MiniZincModel(items)
+  
+  minizinc-desugar-term: Let(items, _, expr) -> Let(items, expr)
+
+rules
+
+  minizinc-resugar = topdown(try(minizinc-resugar-term))
+  
+  minizinc-resugar-term: MiniZincModel(items) -> MiniZincModel(items, None())
+  
+  minizinc-resugar-term: Let(items, expr) -> Let(items, None(), expr)

@@ -5,7 +5,7 @@ imports
   completion/completion
   pp
   minizinc/outline
-  minizinc/desugar
+  minizinc/sugar
   
   minizinc/analysis/-
   
@@ -20,4 +20,4 @@ rules // Debugging
       filename := <guarantee-extension(|"aterm")> path
     ; result   := node
 
-  editor-analyze = nabl2-analyze(desugar)
+  editor-analyze = nabl2-analyze(minizinc-desugar)
