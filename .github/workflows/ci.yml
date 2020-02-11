@@ -1,0 +1,13 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    container: maven:3.5.4-jdk-8
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Maven build
+      run: mvn clean verify
