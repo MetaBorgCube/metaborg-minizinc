@@ -1,5 +1,7 @@
 # MiniZinc in Spoofax
 
+![CI](https://github.com/MetaBorgCube/metaborg-minizinc/workflows/CI/badge.svg)
+
 This repository contains a Spoofax language definition of [MiniZinc](https://www.minizinc.org), a free and open-source constraint modeling language.
 
 ## References
