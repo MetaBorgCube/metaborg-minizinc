@@ -12,19 +12,21 @@ template options
 context-free syntax
 
   MiniZinc-Type-Expr = MiniZinc-Base-Type-Expr
+  MiniZinc-Type-Expr = MiniZinc-Array-Type-Expr
   
-  MiniZinc-Base-Type-Expr.Type = <<MiniZinc-Var-Par?><MiniZinc-Base-Type-Expr-Tail>>
+  MiniZinc-Base-Type-Expr.Type = <<MiniZinc-Var-Par?><MiniZinc-Opt-Type?><MiniZinc-Set-Type?><MiniZinc-Base-Type-Expr-Tail>>
   
   MiniZinc-Var-Par.Var = "var "
   MiniZinc-Var-Par.Par = "par "
+  
+  MiniZinc-Opt-Type.Opt = "opt "
+  
+  MiniZinc-Set-Type.Set = "set of "
 
   MiniZinc-Base-Type-Expr-Tail.Id    = MiniZinc-ID
   MiniZinc-Base-Type-Expr-Tail       = MiniZinc-Base-Type
-  MiniZinc-Base-Type-Expr-Tail       = MiniZinc-Set-Type-Expr-Tail
-  MiniZinc-Base-Type-Expr-Tail       = MiniZinc-Array-Type-Expr-Tail
   MiniZinc-Base-Type-Expr-Tail.Var   = MiniZinc-Type-Variable-Expr-Tail
   MiniZinc-Base-Type-Expr-Tail.Ann   = <ann>
-  MiniZinc-Base-Type-Expr-Tail.Opt   = <opt <MiniZinc-Base-Type-Expr-Tail>>
   MiniZinc-Base-Type-Expr-Tail.Exprs = {MiniZinc-Expr ","}+ {avoid}
   MiniZinc-Base-Type-Expr-Tail.Range = <<MiniZinc-Expr>..<MiniZinc-Expr>>
   
@@ -33,10 +35,8 @@ context-free syntax
   MiniZinc-Base-Type.Float  = "float"
   MiniZinc-Base-Type.String = "string"
   
-  MiniZinc-Set-Type-Expr-Tail.Set = <set of <MiniZinc-Type-Expr>>
-  
-  MiniZinc-Array-Type-Expr-Tail.Array = <array [<{MiniZinc-Type-Expr ","}+>] of <MiniZinc-Type-Expr>>
-  MiniZinc-Array-Type-Expr-Tail.List  = <list of <MiniZinc-Type-Expr>>
+  MiniZinc-Array-Type-Expr.Array = <array [<{MiniZinc-Type-Expr ","}+>] of <MiniZinc-Base-Type-Expr>>
+  MiniZinc-Array-Type-Expr.List  = <list of <MiniZinc-Base-Type-Expr>>
 
 lexical syntax
 
