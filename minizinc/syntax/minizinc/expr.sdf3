@@ -33,8 +33,8 @@ context-free syntax
   
   // Binary operators
   MiniZinc-Expr.Iff       = [[MiniZinc-Expr] <-> [MiniZinc-Expr]] {left}
-  MiniZinc-Expr.Implies   = [[MiniZinc-Expr] -> [MiniZinc-Expr]] {left}
-  MiniZinc-Expr.OnlyIf    = [[MiniZinc-Expr] <- [MiniZinc-Expr]] {left}
+  MiniZinc-Expr.Implies   = [[MiniZinc-Expr] -> [MiniZinc-Expr]] {left, prefer}
+  MiniZinc-Expr.OnlyIf    = [[MiniZinc-Expr] <- [MiniZinc-Expr]] {left, prefer}
   MiniZinc-Expr.Disj      = [[MiniZinc-Expr] \/ [MiniZinc-Expr]] {left}
   MiniZinc-Expr.Xor       = [[MiniZinc-Expr] xor [MiniZinc-Expr]] {left}
   MiniZinc-Expr.Conj      = [[MiniZinc-Expr] /\\ [MiniZinc-Expr]] {left}
