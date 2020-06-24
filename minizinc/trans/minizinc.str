@@ -6,11 +6,6 @@ imports
   pp
   minizinc/outline
   minizinc/sugar
-  
-  minizinc/analysis/-
-  
-  nabl2/api
-  nabl2/runtime
 
 rules // Debugging
   
@@ -20,4 +15,4 @@ rules // Debugging
       filename := <guarantee-extension(|"aterm")> path
     ; result   := node
 
-  editor-analyze = nabl2-analyze(minizinc-desugar)
+  editor-analyze: (ast, _, _) -> (ast, [], [], [])

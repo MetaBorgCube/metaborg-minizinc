@@ -17,7 +17,8 @@ language
   line comment  : "%"
   fences        : [ ] ( ) { }
 
-  observer : editor-analyze (constraint)
+  context  : legacy
+  observer : editor-analyze
 
 menus
   
