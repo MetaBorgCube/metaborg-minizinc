@@ -10,7 +10,6 @@ imports
 context-free syntax
 
   MiniZinc-Expr            = <(<MiniZinc-Expr>)> {bracket}
-  MiniZinc-Expr.Brackets   = <(<MiniZinc-Expr>)>
   MiniZinc-Expr            = MiniZinc-ID-QuotedOp
   MiniZinc-Expr.Underscore = "_"
   MiniZinc-Expr            = MiniZinc-Bool-Literal
