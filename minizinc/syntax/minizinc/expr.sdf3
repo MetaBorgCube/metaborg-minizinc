@@ -139,6 +139,7 @@ context-free syntax
   
   // Array literals
   MiniZinc-Array-Literal.ArrayLit = <[<{MiniZinc-Expr ","}*>]>
+  MiniZinc-Expr.FullRange = [..]
   
   // 2D array literals
   MiniZinc-Array-Literal-2D.ArrayLit2D = <[|<{MiniZinc-Array-Literal-2D-Row "|"}*>|]>
