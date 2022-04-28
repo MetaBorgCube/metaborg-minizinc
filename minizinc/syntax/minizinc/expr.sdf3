@@ -12,6 +12,7 @@ context-free syntax
   MiniZinc-Expr            = <(<MiniZinc-Expr>)> {bracket}
   MiniZinc-Expr            = MiniZinc-ID-QuotedOp
   MiniZinc-Expr.Underscore = "_"
+  MiniZinc-Expr            = MiniZinc-Empty-Literal
   MiniZinc-Expr            = MiniZinc-Bool-Literal
   MiniZinc-Expr            = MiniZinc-Int-Literal
   MiniZinc-Expr            = MiniZinc-Float-Literal
@@ -115,6 +116,9 @@ context-free syntax
   MiniZinc-Builtin-Num-UnOp.Add = <+>
   MiniZinc-Builtin-Num-UnOp.Sub = <->
   
+  // Optional literal
+  MiniZinc-Empty-Literal.Empty = [<>]
+
   // Boolean literals
   MiniZinc-Bool-Literal.False = <false>
   MiniZinc-Bool-Literal.True = <true>
